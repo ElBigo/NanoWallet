@@ -26,12 +26,6 @@ public class Request extends AsyncTask<String, String, String> {
         this.onEndReq = callb;
     }
 
-//    @Override
-//    protected void onPreExecute() {
-//        super.onPreExecute();
-//
-//    }
-
     @Override
     protected String doInBackground(String... params) {
 

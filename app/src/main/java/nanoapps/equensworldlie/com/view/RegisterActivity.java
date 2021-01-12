@@ -70,7 +70,7 @@ public class RegisterActivity extends AppCompatActivity{
                             JSONObject json = new JSONObject(res);
 
                             String walletId = json.getString("wallet");
-                            Log.d("Wallet_ID", walletId);
+                            Log.e("Wallet_ID", walletId);
 
                             Map<String, String> data_1 = new HashMap<String, String>();
                             data_1.put("action","key_create");
@@ -90,7 +90,7 @@ public class RegisterActivity extends AppCompatActivity{
                                         JSONObject json_2 = new JSONObject(res_2);
                                         String accountId = json_2.getString("account");
 
-                                        Log.d("account_Id", accountId);
+                                        Log.e("account_Id", accountId);
 
                                         if(password.equals(cnfpassword)){
 
