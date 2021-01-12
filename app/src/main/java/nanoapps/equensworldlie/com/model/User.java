@@ -8,11 +8,11 @@ public class User {
     private int balance;
 
 
-    public User(String username, String password, String walletId, int balance) {
+    public User(String username, String password, String walletId) {
         this.username = username;
         this.password = password;
         this.walletId = walletId;
-        this.balance = balance;
+        this.balance = 0;
     }
 
     public String getUsername() {

@@ -10,11 +10,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import nanoapps.equensworldlie.com.R;
-import nanoapps.equensworldlie.com.controller.PostHttp;
 import nanoapps.equensworldlie.com.model.DbManager;
 
 public class MainActivity extends AppCompatActivity {
