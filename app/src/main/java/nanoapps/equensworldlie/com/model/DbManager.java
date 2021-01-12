@@ -37,11 +37,11 @@ public class DbManager extends SQLiteOpenHelper {
         String userTableSql = "create table users_table (ID integer primary key autoincrement, USERNAME text not null, PASSWORD text not null, WALLET_ID text, " +
                 "FK_ACCOUNT_ID text, foreign key (FK_ACCOUNT_ID) references account_table(ID))";
 
-        String accountTaeSql = "create table account_table (ID integer primary key autoincrement, PUBLIC_KEY text not null, PRIVATE_KEY text not null)";
+        String accountTableSql = "create table account_table (ID integer primary key autoincrement, ACCOUNT_ID text not null, PUBLIC_KEY text not null, PRIVATE_KEY text not null)";
 
 
         db.execSQL(userTableSql);
-        db.execSQL(accountTaeSql);
+        db.execSQL(accountTableSql);
 
         Log.e("DATABASE","onCreate invoked");
     }
@@ -50,7 +50,7 @@ public class DbManager extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
         db.execSQL(" drop table if exists " + USER_TABLE_NAME);
-        db.execSQL(" drop table if exists "+ACCOUNT_TABLE_NAME);
+        db.execSQL(" drop table if exists "+ ACCOUNT_TABLE_NAME);
         onCreate(db);
 
         Log.d("DATABASE","onUpgrade invoked");
@@ -76,9 +76,9 @@ public class DbManager extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues contentValues = new ContentValues();
-        contentValues.put("COLUMN_ACCOUNT_ID", accountId); // the first value is the COLUMN_NAME (USERNAME), then the value we want to store(username)
-        contentValues.put("COLUMN_PKEY",publicKey);
-        contentValues.put("COLUMN_SKEY",privateKey);
+        contentValues.put("ACCOUNT_ID", accountId); // the first value is the COLUMN_NAME (USERNAME), then the value we want to store(username)
+        contentValues.put("PUBLIC_KEY",publicKey);
+        contentValues.put("PRIVATE_KEY",privateKey);
 
         db.insert("account_table", null, contentValues);
     }
