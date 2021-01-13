@@ -4,12 +4,14 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
 import nanoapps.equensworldlie.com.R;
 import nanoapps.equensworldlie.com.model.DbManager;
+import nanoapps.equensworldlie.com.model.User;
 
 public class UserActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -18,6 +20,7 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
     TextView getCurrencyTextView;
     TextView transferFundsTextView;
     TextView claimTransactionsTextView;
+    TextView balanceTextview;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,11 +32,21 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
         getCurrencyTextView = (TextView) findViewById(R.id.get_currency);
         transferFundsTextView = (TextView) findViewById(R.id.transfer_funds);
         claimTransactionsTextView = (TextView) findViewById(R.id.claim_transactions);
+        balanceTextview = (TextView) findViewById(R.id.balance_text_view);
 
         logOutButton.setOnClickListener(this);
         getCurrencyTextView.setOnClickListener(this);
         transferFundsTextView.setOnClickListener(this);
         claimTransactionsTextView.setOnClickListener(this);
+
+        Intent login = getIntent();
+        User user = (User)login.getSerializableExtra("user");
+
+        balanceTextview.setText(String.valueOf(user.getBalance()));
+
+//        int i = user.getBalance();
+//        System.out.println("Balance: "+i);
+
     }
 
     @Override

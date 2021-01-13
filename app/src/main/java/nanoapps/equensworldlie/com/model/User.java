@@ -1,6 +1,8 @@
 package nanoapps.equensworldlie.com.model;
 
-public class User {
+import java.io.Serializable;
+
+public class User implements Serializable {
 
     private String username;
     private String password;
@@ -18,7 +20,7 @@ public class User {
         this.accountId = "";
         this.pKey = "";
         this.sKey = "";
-        this.balance = 0;
+        this.balance = 2;
     }
     public User(String username, String password, String walletId, String accountId, String pKey, String sKey) {
         this.username = username;

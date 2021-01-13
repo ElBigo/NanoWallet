@@ -36,14 +36,14 @@
         android:layout_marginTop="55dp">
 
         <TextView
+            android:id="@+id/balance_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:textStyle="bold"
             android:layout_marginTop="50dp"
             android:textSize="40sp"
-            android:textColor="#E10A0A"
-            android:text="25"/>
+            android:textColor="#E10A0A" />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

@@ -103,11 +103,7 @@ public class RegisterActivity extends AppCompatActivity{
                                                     public void run(){
                                                         super.run();
                                                     }
-
                                                 }).execute("http://192.168.56.1:7076");
-
-//                                                new User(username, password, walletId);
-//                                                new Account(accountId, publicKey, privateKey);
 
                                                 Toast.makeText(RegisterActivity.this, "Registration Successful", Toast.LENGTH_SHORT).show();
 

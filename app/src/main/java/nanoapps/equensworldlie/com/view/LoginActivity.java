@@ -3,16 +3,24 @@ package nanoapps.equensworldlie.com.view;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import nanoapps.equensworldlie.com.R;
+import nanoapps.equensworldlie.com.controller.Request;
+import nanoapps.equensworldlie.com.controller.RequestCallback;
 import nanoapps.equensworldlie.com.model.DbManager;
 import nanoapps.equensworldlie.com.model.User;
 
@@ -48,13 +56,47 @@ public class LoginActivity extends AppCompatActivity {
 
                 if(res==true){
 
-                    Toast.makeText(LoginActivity.this, "Login Successful", Toast.LENGTH_SHORT).show();
                     user.setUsername(username);
 
-                    
+                    Cursor cursor = db.getReadableDatabase().query("users_table", new String[] {"WALLET_ID", "ACCOUNT_ID", "PUBLIC_KEY"},"USERNAME = ?", new String[] {username}, null,null,null );
 
-                    Intent userIntent = new Intent((LoginActivity.this), (UserActivity.class));
-                    startActivity(userIntent);
+                    cursor.moveToFirst();
+                        user.setWalletId(cursor.getString(0));
+                        user.setAccountId(cursor.getString(1));
+                        user.setpKey(cursor.getString(2));
+
+
+                    Map<String, String> accountBalance = new HashMap<String, String>();
+
+                    accountBalance.put("action","account_balance");
+                    accountBalance.put("account",user.getAccountId());
+
+
+                    new Request(accountBalance, new RequestCallback(){
+
+                        @Override
+                        public void run() {
+                            super.run();
+
+                            String balance = this.Response;
+
+                            try {
+                                JSONObject accountBalanceJson = new JSONObject(balance);
+                                user.setBalance((int) accountBalanceJson.getInt("balance"));
+
+                                Toast.makeText(LoginActivity.this, "Login Successful", Toast.LENGTH_SHORT).show();
+                                Intent userIntent = new Intent((LoginActivity.this), (UserActivity.class)).putExtra("user", user);
+                                startActivity(userIntent);
+
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }).execute("http://192.168.56.1:7076");
+//
+//                    Toast.makeText(LoginActivity.this, "Login Successful", Toast.LENGTH_SHORT).show();
+//                    Intent userIntent = new Intent((LoginActivity.this), (UserActivity.class)).putExtra("user", user);
+//                    startActivity(userIntent);
                 }
                 else {
                     Toast.makeText(LoginActivity.this, "Login Failed", Toast.LENGTH_SHORT).show();

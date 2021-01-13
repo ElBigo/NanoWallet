@@ -89,7 +89,6 @@ public class Request extends AsyncTask<String, String, String> {
     protected void onPostExecute(String s) {
 
         super.onPostExecute(s);
-
         if(onEndReq!=null){
             onEndReq.setResponse(s);
             onEndReq.run();
