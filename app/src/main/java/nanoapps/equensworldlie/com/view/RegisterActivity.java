@@ -66,6 +66,7 @@ public class RegisterActivity extends AppCompatActivity{
                         try {
 
                             JSONObject walletCreateJson = new JSONObject(walletCreationResponse);
+
                             String walletId = walletCreateJson.getString("wallet");
                             Map<String, String> dataKeyCreation = new HashMap<String, String>();
                             dataKeyCreation.put("action","key_create");
@@ -87,8 +88,7 @@ public class RegisterActivity extends AppCompatActivity{
 
                                         if(password.equals(cnfpassword)){
 
-                                            long val = db.addUser(username, password, walletId, accountId);
-                                            db.addAccount(accountId, publicKey, privateKey);
+                                            long val = db.addUser(username, password, walletId, accountId, publicKey, privateKey);
 
                                             if(val > 0){
 
@@ -106,12 +106,12 @@ public class RegisterActivity extends AppCompatActivity{
 
                                                 }).execute("http://192.168.56.1:7076");
 
-                                                new User(username, password, walletId);
-                                                new Account(accountId, publicKey, privateKey);
+//                                                new User(username, password, walletId);
+//                                                new Account(accountId, publicKey, privateKey);
 
                                                 Toast.makeText(RegisterActivity.this, "Registration Successful", Toast.LENGTH_SHORT).show();
 
-                                                Intent moveToLogin = new Intent((RegisterActivity.this), (MainActivity.class));
+                                                Intent moveToLogin = new Intent((RegisterActivity.this), (LoginActivity.class));
                                                 startActivity(moveToLogin);
                                             }
                                             else{Toast.makeText(RegisterActivity.this, "Registration", Toast.LENGTH_SHORT).show(); }
@@ -134,7 +134,7 @@ public class RegisterActivity extends AppCompatActivity{
         loginTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent registerIntent = new Intent((RegisterActivity.this), (MainActivity.class));
+                Intent registerIntent = new Intent((RegisterActivity.this), (LoginActivity.class));
                 startActivity(registerIntent);
             }
         });

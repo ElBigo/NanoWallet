@@ -42,7 +42,7 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
         switch (v.getId()) {
 
             case R.id.log_out_button:
-                Intent moveToLogin = new Intent((UserActivity.this), (MainActivity.class));
+                Intent moveToLogin = new Intent((UserActivity.this), (LoginActivity.class));
                 startActivity(moveToLogin);
                 break;
             case R.id.get_currency:

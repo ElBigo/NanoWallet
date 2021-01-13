@@ -16,7 +16,7 @@
         <activity android:name=".view.getCurrencyActivity" />
         <activity android:name=".view.UserActivity" />
         <activity android:name=".view.RegisterActivity" />
-        <activity android:name=".view.MainActivity">
+        <activity android:name=".view.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

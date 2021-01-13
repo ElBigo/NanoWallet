@@ -14,8 +14,9 @@ import org.json.JSONObject;
 
 import nanoapps.equensworldlie.com.R;
 import nanoapps.equensworldlie.com.model.DbManager;
+import nanoapps.equensworldlie.com.model.User;
 
-public class MainActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity {
 
     EditText editUsername;
     EditText editPassword;
@@ -33,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
         editPassword = (EditText) findViewById(R.id.edit_password);
         loginButton = (Button) findViewById(R.id.login_button);
         registerTextView = (TextView) findViewById(R.id.textview_register);
+        User user = new User();
 
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -45,20 +47,17 @@ public class MainActivity extends AppCompatActivity {
                 JSONObject postData =new JSONObject();
 
                 if(res==true){
-                    Toast.makeText(MainActivity.this, "Login Successful", Toast.LENGTH_SHORT).show();
-                    Intent userIntent = new Intent((MainActivity.this), (UserActivity.class));
 
-//                    try{
-//                        postData.put("action", "version");
-//                        new PostHttp().execute("http://192.168.56.1:7076", postData.toString());
-//                    } catch (JSONException e){
-//                        e.printStackTrace();
-//                    }
+                    Toast.makeText(LoginActivity.this, "Login Successful", Toast.LENGTH_SHORT).show();
+                    user.setUsername(username);
 
+                    
+
+                    Intent userIntent = new Intent((LoginActivity.this), (UserActivity.class));
                     startActivity(userIntent);
                 }
                 else {
-                    Toast.makeText(MainActivity.this, "Login Failed", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginActivity.this, "Login Failed", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -67,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                Intent loginIntent = new Intent((MainActivity.this), (RegisterActivity.class));
+                Intent loginIntent = new Intent((LoginActivity.this), (RegisterActivity.class));
                 startActivity(loginIntent);
             }
         });

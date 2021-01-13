@@ -44,7 +44,7 @@ public class getCurrencyActivity extends AppCompatActivity implements View.OnCli
         switch (v.getId()) {
 
             case R.id.log_out_button:
-                Intent moveToLogin = new Intent((this), (MainActivity.class));
+                Intent moveToLogin = new Intent((this), (LoginActivity.class));
                 startActivity(moveToLogin);
                 break;
             case R.id.transfer_funds:

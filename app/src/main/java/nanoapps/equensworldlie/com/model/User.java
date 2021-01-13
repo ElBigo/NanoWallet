@@ -5,13 +5,28 @@ public class User {
     private String username;
     private String password;
     private String walletId;
+    private String accountId;
+    private String pKey;
+    private String sKey;
     private int balance;
 
 
-    public User(String username, String password, String walletId) {
+    public User(){
+        this.username = "";
+        this.password = "";
+        this.walletId = "";
+        this.accountId = "";
+        this.pKey = "";
+        this.sKey = "";
+        this.balance = 0;
+    }
+    public User(String username, String password, String walletId, String accountId, String pKey, String sKey) {
         this.username = username;
         this.password = password;
         this.walletId = walletId;
+        this.accountId = accountId;
+        this.pKey = pKey;
+        this.sKey = sKey;
         this.balance = 0;
     }
 
@@ -27,15 +42,15 @@ public class User {
     public int getBalance() {
         return balance;
     }
+    public String getAccountId() { return accountId; }
+    public String getpKey() { return pKey; }
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
 
+    public void setAccountId(String accountId) { this.accountId = accountId; }
+    public void setpKey(String pKey) { this.pKey = pKey; }
+    public void setUsername(String username) { this.username = username; }
+    public void setPassword(String password) { this.password = password; }
     public void setWalletId(String walletId) {
         this.walletId = walletId;
     }
