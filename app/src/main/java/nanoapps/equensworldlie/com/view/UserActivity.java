@@ -4,9 +4,12 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import nanoapps.equensworldlie.com.R;
@@ -21,6 +24,8 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
     TextView transferFundsTextView;
     TextView claimTransactionsTextView;
     TextView balanceTextview;
+    EditText getCurrencyEdittext;
+    Button getCurrencyButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,7 +34,9 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
 
         db = new DbManager(this);
         logOutButton = (Button)findViewById(R.id.log_out_button);
-        getCurrencyTextView = (TextView) findViewById(R.id.get_currency);
+        getCurrencyTextView = (TextView) findViewById(R.id.get_currency_textview);
+        getCurrencyEdittext = (EditText) findViewById(R.id.get_currency_edittext);
+        getCurrencyButton = (Button) findViewById(R.id.get_currency_button);
         transferFundsTextView = (TextView) findViewById(R.id.transfer_funds);
         claimTransactionsTextView = (TextView) findViewById(R.id.claim_transactions);
         balanceTextview = (TextView) findViewById(R.id.balance_text_view);
@@ -38,14 +45,14 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
         getCurrencyTextView.setOnClickListener(this);
         transferFundsTextView.setOnClickListener(this);
         claimTransactionsTextView.setOnClickListener(this);
+        getCurrencyEdittext.setOnClickListener(this);
+        getCurrencyButton.setOnClickListener(this);
 
         Intent login = getIntent();
         User user = (User)login.getSerializableExtra("user");
 
         balanceTextview.setText(String.valueOf(user.getBalance()));
 
-//        int i = user.getBalance();
-//        System.out.println("Balance: "+i);
 
     }
 
@@ -58,10 +65,20 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
                 Intent moveToLogin = new Intent((UserActivity.this), (LoginActivity.class));
                 startActivity(moveToLogin);
                 break;
-            case R.id.get_currency:
-                Intent moveToGetCurrencyActivity = new Intent((UserActivity.this), (getCurrencyActivity.class));
-                startActivity(moveToGetCurrencyActivity);
+
+            case R.id.get_currency_textview:
+                getCurrencyEdittext.setVisibility(View.VISIBLE);
+                getCurrencyButton.setVisibility(View.VISIBLE);
+
                 break;
+
+            case R.id.get_currency_edittext:
+                break;
+
+            case R.id.get_currency_button:
+                Log.e("Good","On OK!");
+                break;
+
             case R.id.transfer_funds:
                 Intent moveToTransferFundsActivity = new Intent((UserActivity.this), (transferFundsActivity.class));
                 startActivity(moveToTransferFundsActivity);

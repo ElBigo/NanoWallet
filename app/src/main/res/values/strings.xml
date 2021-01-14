@@ -12,7 +12,7 @@
     <string name="already_registered">Already registered?</string>
     <string name="log_out">Log Out</string>
     <string name="my_balance">My balance</string>
-    <string name="nanos">nanos</string>
+    <string name="nanos">Coins</string>
     <string name="my_account">My account</string>
     <string name="get_currency">Get Currency</string>
     <string name="transfer_funds">Transfer funds</string>
@@ -20,4 +20,6 @@
     <string name="check_out">Check out</string>
     <string name="search_user">Search user</string>
     <string name="enter_username">Enter username</string>
+    <string name="value">Value...</string>
+    <string name="ok">Ok</string>
 </resources>
