@@ -50,6 +50,7 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
 
         Intent login = getIntent();
         User user = (User)login.getSerializableExtra("user");
+        System.out.println("Balance: "+user.getBalance()+" \n accountId: "+user.getAccountId()+"\n username:"+user.getUsername());
 
         balanceTextview.setText(String.valueOf(user.getBalance()));
 
@@ -69,14 +70,17 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.get_currency_textview:
                 getCurrencyEdittext.setVisibility(View.VISIBLE);
                 getCurrencyButton.setVisibility(View.VISIBLE);
-
-                break;
-
-            case R.id.get_currency_edittext:
                 break;
 
             case R.id.get_currency_button:
-                Log.e("Good","On OK!");
+                if(!getCurrencyEdittext.getText().toString().matches("")){
+
+
+
+//                    Log.e("Non Empty",getCurrencyEdittext.getText().toString());
+                }
+                break;
+            case R.id.get_currency_edittext:
                 break;
 
             case R.id.transfer_funds:

@@ -20,7 +20,7 @@ public class User implements Serializable {
         this.accountId = "";
         this.pKey = "";
         this.sKey = "";
-        this.balance = 2;
+        this.balance = 0;
     }
     public User(String username, String password, String walletId, String accountId, String pKey, String sKey) {
         this.username = username;

@@ -82,6 +82,9 @@ public class LoginActivity extends AppCompatActivity {
 
                             try {
                                 JSONObject accountBalanceJson = new JSONObject(balance);
+
+                                //TODO
+                                // This casting modifies the Value of the Balance. to be review!
                                 user.setBalance((int) accountBalanceJson.getInt("balance"));
 
                                 Toast.makeText(LoginActivity.this, "Login Successful", Toast.LENGTH_SHORT).show();
