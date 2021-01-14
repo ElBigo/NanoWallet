@@ -3,7 +3,9 @@ package nanoapps.equensworldlie.com.view;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -11,8 +13,17 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import nanoapps.equensworldlie.com.R;
+import nanoapps.equensworldlie.com.controller.Request;
+import nanoapps.equensworldlie.com.controller.RequestCallback;
 import nanoapps.equensworldlie.com.model.DbManager;
 import nanoapps.equensworldlie.com.model.User;
 
@@ -26,6 +37,7 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
     TextView balanceTextview;
     EditText getCurrencyEdittext;
     Button getCurrencyButton;
+    User user = new User();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,8 +61,7 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
         getCurrencyButton.setOnClickListener(this);
 
         Intent login = getIntent();
-        User user = (User)login.getSerializableExtra("user");
-        System.out.println("Balance: "+user.getBalance()+" \n accountId: "+user.getAccountId()+"\n username:"+user.getUsername());
+        user = (User)login.getSerializableExtra("user");
 
         balanceTextview.setText(String.valueOf(user.getBalance()));
 
@@ -75,9 +86,81 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.get_currency_button:
                 if(!getCurrencyEdittext.getText().toString().matches("")){
 
+                    User admin = new User();
 
+                    Cursor cursorAdmin = db.getReadableDatabase().query("users_table", new String[] {"WALLET_ID", "ACCOUNT_ID"},"USERNAME =?", new String[] {"admin"}, null,null,null );
+                    cursorAdmin.moveToFirst();
+                    admin.setWalletId(cursorAdmin.getString(0));
+                    admin.setAccountId(cursorAdmin.getString(1));
+                    long tsLong = System.currentTimeMillis()/1000;
+                    String ts =  String.valueOf(tsLong);
 
-//                    Log.e("Non Empty",getCurrencyEdittext.getText().toString());
+                    Map<String,String > dataSendTransactionRequest = new HashMap<String, String>();
+                    dataSendTransactionRequest.put("action","send");
+                    dataSendTransactionRequest.put("wallet",admin.getWalletId());
+                    dataSendTransactionRequest.put("source",admin.getAccountId());
+                    dataSendTransactionRequest.put("destination",user.getAccountId());
+                    dataSendTransactionRequest.put("amount",getCurrencyEdittext.getText().toString().trim());
+                    dataSendTransactionRequest.put("id",ts);  // Unique ID needed for each transactions
+
+                    new Request(dataSendTransactionRequest, new RequestCallback(){
+
+                        @Override
+                        public void run() {
+                            super.run();
+
+                            try {
+                                JSONObject sendTransactionJsonResponse = new JSONObject(this.Response);
+                                String blockId = sendTransactionJsonResponse.getString("block");
+                                Map<String,String> dataReceiveTransaction = new HashMap<String, String>();
+
+                                dataReceiveTransaction.put("action","receive");
+                                dataReceiveTransaction.put("wallet",user.getWalletId());
+                                dataReceiveTransaction.put("account",user.getAccountId());
+                                dataReceiveTransaction.put("block",blockId);
+
+                                new Request(dataReceiveTransaction, new RequestCallback(){
+
+                                    @Override
+                                    public void run() {
+                                        super.run();
+
+                                        Map<String, String> accountBalance = new HashMap<String, String>();
+
+                                        accountBalance.put("action","account_balance");
+                                        accountBalance.put("account",user.getAccountId());
+
+                                        new Request(accountBalance, new RequestCallback(){
+                                            final Handler handler = new Handler();
+
+                                            @Override
+                                            public void run() {
+                                                super.run();
+
+                                                try {
+                                                    JSONObject accountBalanceJson = new JSONObject(this.Response);
+                                                    handler.post(new Runnable() {
+                                                        @Override
+                                                        public void run() {
+                                                            try {
+                                                                balanceTextview.setText(accountBalanceJson.getString("balance"));
+                                                            } catch (JSONException e) {
+                                                                e.printStackTrace();
+                                                            }
+                                                        }
+                                                    });
+                                                } catch (JSONException e) {
+                                                    e.printStackTrace();
+                                                }
+                                            }
+                                        }).execute("http://192.168.56.1:7076");
+                                    }
+                                }).execute("http://192.168.56.1:7076");
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }).execute("http://192.168.56.1:7076");
                 }
                 break;
             case R.id.get_currency_edittext:

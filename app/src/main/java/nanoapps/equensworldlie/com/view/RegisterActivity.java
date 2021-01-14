@@ -55,6 +55,7 @@ public class RegisterActivity extends AppCompatActivity{
                 Map<String, String> dataWalletCreation = new HashMap<String, String>();
                 dataWalletCreation.put("action","wallet_create");
 
+                // If Username == admin, special registration is setup, to register the private account in Node
                 switch (username){
                     case "admin":
                         new Request(dataWalletCreation, new RequestCallback(){
@@ -110,7 +111,9 @@ public class RegisterActivity extends AppCompatActivity{
                         }).execute("http://192.168.56.1:7076");
                         break;
 
+                        // if Username != admin, normal registration is made
                     default:
+                        // Wallet Creation
                         new Request(dataWalletCreation, new RequestCallback(){
 
                             @Override
@@ -127,6 +130,7 @@ public class RegisterActivity extends AppCompatActivity{
                                     Map<String, String> dataKeyCreation = new HashMap<String, String>();
                                     dataKeyCreation.put("action","key_create");
 
+                                    // Key Generation
                                     new Request(dataKeyCreation, new RequestCallback(){
 
                                         @Override
@@ -153,6 +157,7 @@ public class RegisterActivity extends AppCompatActivity{
                                                         dataWalletAccountAssociation.put("wallet",walletId);
                                                         dataWalletAccountAssociation.put("key",privateKey);
 
+                                                        // Association made between the wallet and account created
                                                         new Request(dataWalletAccountAssociation, new RequestCallback(){
 
                                                             @Override
