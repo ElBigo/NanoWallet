@@ -64,8 +64,6 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
         user = (User)login.getSerializableExtra("user");
 
         balanceTextview.setText(String.valueOf(user.getBalance()));
-
-
     }
 
     @Override
@@ -77,7 +75,6 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
                 Intent moveToLogin = new Intent((UserActivity.this), (LoginActivity.class));
                 startActivity(moveToLogin);
                 break;
-
             case R.id.get_currency_textview:
                 getCurrencyEdittext.setVisibility(View.VISIBLE);
                 getCurrencyButton.setVisibility(View.VISIBLE);

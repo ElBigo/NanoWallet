@@ -11,7 +11,7 @@ import android.widget.TextView;
 import nanoapps.equensworldlie.com.R;
 import nanoapps.equensworldlie.com.model.DbManager;
 
-public class getCurrencyActivity extends AppCompatActivity implements View.OnClickListener  {
+public class rechargeActivity extends AppCompatActivity implements View.OnClickListener  {
 
 
     DbManager db;
@@ -24,7 +24,7 @@ public class getCurrencyActivity extends AppCompatActivity implements View.OnCli
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_get_currency);
+        setContentView(R.layout.activity_recharge);
 
         db = new DbManager(this);
         logOutButton = (Button)findViewById(R.id.log_out_button);

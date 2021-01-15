@@ -111,7 +111,7 @@ public class RegisterActivity extends AppCompatActivity{
                         }).execute("http://192.168.56.1:7076");
                         break;
 
-                        // if Username != admin, normal registration is made
+                        // Username != admin, normal registration is made
                     default:
                         // Wallet Creation
                         new Request(dataWalletCreation, new RequestCallback(){

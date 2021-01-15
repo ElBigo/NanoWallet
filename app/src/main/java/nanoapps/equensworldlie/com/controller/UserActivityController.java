@@ -5,10 +5,5 @@ import nanoapps.equensworldlie.com.model.User;
 
 public class UserActivityController {
 
-    DbManager db;
 
-    public User getAdminInfo(){
-
-        return new User();
-    };
 }
