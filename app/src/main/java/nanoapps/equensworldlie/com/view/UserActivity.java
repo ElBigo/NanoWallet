@@ -81,7 +81,7 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.get_currency_textview:
                 getCurrencyEdittext.setVisibility(View.VISIBLE);
-                //getCurrencyButton.setVisibility(View.VISIBLE);
+                getCurrencyButton.setVisibility(View.VISIBLE); //was commented
                 break;
 
             case R.id.get_currency_button:
@@ -89,82 +89,82 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
                 if(!getCurrencyEdittext.getText().toString().matches("")){
                     getCurrencyButton.setVisibility(View.VISIBLE);
 
-                    User admin = new User();
-
-                    Cursor cursorAdmin = db.getReadableDatabase().query("users_table", new String[] {"WALLET_ID", "ACCOUNT_ID"},"USERNAME =?", new String[] {"admin"}, null,null,null );
-                    cursorAdmin.moveToFirst();
-                    admin.setWalletId(cursorAdmin.getString(0));
-                    admin.setAccountId(cursorAdmin.getString(1));
-
-                    long tsLong = System.currentTimeMillis()/1000;
-                    String ts =  String.valueOf(tsLong);
-
-                    Map<String,String > dataSendTransactionRequest = new HashMap<String, String>();
-                    dataSendTransactionRequest.put("action","send");
-                    dataSendTransactionRequest.put("wallet",admin.getWalletId());
-                    dataSendTransactionRequest.put("source",admin.getAccountId());
-                    dataSendTransactionRequest.put("destination",user.getAccountId());
-                    dataSendTransactionRequest.put("amount",getCurrencyEdittext.getText().toString().trim());
-                    dataSendTransactionRequest.put("id",ts);  // Unique ID needed for each transactions
-
-                    new Request(dataSendTransactionRequest, new RequestCallback(){
-
-                        @Override
-                        public void run() {
-                            super.run();
-
-                            try {
-                                JSONObject sendTransactionJsonResponse = new JSONObject(this.Response);
-                                String blockId = sendTransactionJsonResponse.getString("block");
-                                Map<String,String> dataReceiveTransaction = new HashMap<String, String>();
-
-                                dataReceiveTransaction.put("action","receive");
-                                dataReceiveTransaction.put("wallet",user.getWalletId());
-                                dataReceiveTransaction.put("account",user.getAccountId());
-                                dataReceiveTransaction.put("block",blockId);
-
-                                new Request(dataReceiveTransaction, new RequestCallback(){
-
-                                    @Override
-                                    public void run() {
-                                        super.run();
-
-                                        Map<String, String> accountBalance = new HashMap<String, String>();
-
-                                        accountBalance.put("action","account_balance");
-                                        accountBalance.put("account",user.getAccountId());
-
-                                        new Request(accountBalance, new RequestCallback(){
-                                            final Handler handler = new Handler();
-
-                                            @Override
-                                            public void run() {
-                                                super.run();
-
-                                                try {
-                                                    JSONObject accountBalanceJson = new JSONObject(this.Response);
-                                                    handler.post(new Runnable() {
-                                                        @Override
-                                                        public void run() {
-                                                            try {
-                                                                balanceTextview.setText(accountBalanceJson.getString("balance"));
-                                                            } catch (JSONException e) {
-                                                                e.printStackTrace();
-                                                            }
-                                                        }
-                                                    });
-                                                } catch (JSONException e) {
-                                                    e.printStackTrace();
-                                                }
-                                            }
-                                        }).execute("http://192.168.56.1:7076");
-                                    }
-                                }).execute("http://192.168.56.1:7076");
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                    }).execute("http://192.168.56.1:7076");
+//                    User admin = new User();
+//
+//                    Cursor cursorAdmin = db.getReadableDatabase().query("users_table", new String[] {"WALLET_ID", "ACCOUNT_ID"},"USERNAME =?", new String[] {"admin"}, null,null,null );
+//                    cursorAdmin.moveToFirst();
+//                    admin.setWalletId(cursorAdmin.getString(0));
+//                    admin.setAccountId(cursorAdmin.getString(1));
+//
+//                    long tsLong = System.currentTimeMillis()/1000;
+//                    String ts =  String.valueOf(tsLong);
+//
+//                    Map<String,String > dataSendTransactionRequest = new HashMap<String, String>();
+//                    dataSendTransactionRequest.put("action","send");
+//                    dataSendTransactionRequest.put("wallet",admin.getWalletId());
+//                    dataSendTransactionRequest.put("source",admin.getAccountId());
+//                    dataSendTransactionRequest.put("destination",user.getAccountId());
+//                    dataSendTransactionRequest.put("amount",getCurrencyEdittext.getText().toString().trim());
+//                    dataSendTransactionRequest.put("id",ts);  // Unique ID needed for each transactions
+//
+//                    new Request(dataSendTransactionRequest, new RequestCallback(){
+//
+//                        @Override
+//                        public void run() {
+//                            super.run();
+//
+//                            try {
+//                                JSONObject sendTransactionJsonResponse = new JSONObject(this.Response);
+//                                String blockId = sendTransactionJsonResponse.getString("block");
+//                                Map<String,String> dataReceiveTransaction = new HashMap<String, String>();
+//
+//                                dataReceiveTransaction.put("action","receive");
+//                                dataReceiveTransaction.put("wallet",user.getWalletId());
+//                                dataReceiveTransaction.put("account",user.getAccountId());
+//                                dataReceiveTransaction.put("block",blockId);
+//
+//                                new Request(dataReceiveTransaction, new RequestCallback(){
+//
+//                                    @Override
+//                                    public void run() {
+//                                        super.run();
+//
+//                                        Map<String, String> accountBalance = new HashMap<String, String>();
+//
+//                                        accountBalance.put("action","account_balance");
+//                                        accountBalance.put("account",user.getAccountId());
+//
+//                                        new Request(accountBalance, new RequestCallback(){
+//                                            final Handler handler = new Handler();
+//
+//                                            @Override
+//                                            public void run() {
+//                                                super.run();
+//
+//                                                try {
+//                                                    JSONObject accountBalanceJson = new JSONObject(this.Response);
+//                                                    handler.post(new Runnable() {
+//                                                        @Override
+//                                                        public void run() {
+//                                                            try {
+//                                                                balanceTextview.setText(accountBalanceJson.getString("balance"));
+//                                                            } catch (JSONException e) {
+//                                                                e.printStackTrace();
+//                                                            }
+//                                                        }
+//                                                    });
+//                                                } catch (JSONException e) {
+//                                                    e.printStackTrace();
+//                                                }
+//                                            }
+//                                        }).execute("http://192.168.56.1:7076");
+//                                    }
+//                                }).execute("http://192.168.56.1:7076");
+//                            } catch (JSONException e) {
+//                                e.printStackTrace();
+//                            }
+//                        }
+//                    }).execute("http://192.168.56.1:7076");
                 }
                 break;
             case R.id.get_currency_edittext:

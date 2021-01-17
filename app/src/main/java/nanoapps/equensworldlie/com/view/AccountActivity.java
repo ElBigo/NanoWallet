@@ -2,8 +2,11 @@ package nanoapps.equensworldlie.com.view;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -20,13 +23,17 @@ import nanoapps.equensworldlie.com.model.User;
 
 public class AccountActivity extends AppCompatActivity {
 
+    Button backAccountButton;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_account);
 
+
         ImageView barcode = (ImageView) findViewById(R.id.bar_code);
         TextView accountDetailTextview = (TextView) findViewById(R.id.account_detail_textview);
+        backAccountButton = (Button) findViewById(R.id.back);
+
         accountDetailTextview.setText("nano_3e3j5tkog48pnny9dmfzj1r16pg8t1e76dz5tmac6iq689wyjfpiij4txtdo");
 
         User user = new User();
@@ -42,6 +49,14 @@ public class AccountActivity extends AppCompatActivity {
         } catch (WriterException e) {
             e.printStackTrace();
         }
+
+        backAccountButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent moveToLogin = new Intent((AccountActivity.this), (UserActivity.class));
+                startActivity(moveToLogin);
+            }
+        });
 
     }
 }

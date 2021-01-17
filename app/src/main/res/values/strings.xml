@@ -24,4 +24,5 @@
     <string name="ok">Ok</string>
     <string name="scan_qr_code">Scan Qr Code</string>
     <string name="pay">Pay</string>
+    <string name="back">Back</string>
 </resources>
