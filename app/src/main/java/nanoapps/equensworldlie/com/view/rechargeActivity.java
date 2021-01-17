@@ -48,7 +48,7 @@ public class rechargeActivity extends AppCompatActivity implements View.OnClickL
                 startActivity(moveToLogin);
                 break;
             case R.id.transfer_funds:
-                Intent moveToTransferFundsActivity = new Intent((this), (transferFundsActivity.class));
+                Intent moveToTransferFundsActivity = new Intent((this), (PayActivity.class));
                 startActivity(moveToTransferFundsActivity);
                 break;
             case R.id.claim_transactions:

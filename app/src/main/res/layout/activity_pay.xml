@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    tools:context=".view.PayActivity">
+
+    <TextView
+        android:id="@+id/account_id_textview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:textColor="#000"
+        android:text="ID: "/>
+
+    <ImageView
+        android:id="@+id/bar_code"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/account_id_textview"
+        android:adjustViewBounds="true"/>
+
+    <Button
+        android:id="@+id/scan_code_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="#495A7E"
+        android:layout_below="@+id/bar_code"
+        android:text="@string/scan_qr_code" />
+
+
+
+
+
+</RelativeLayout>

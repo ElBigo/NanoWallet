@@ -6,14 +6,10 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.os.Handler;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -35,6 +31,7 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
     TextView transferFundsTextView;
     TextView claimTransactionsTextView;
     TextView balanceTextview;
+    TextView myAccountTextview;
     EditText getCurrencyEdittext;
     Button getCurrencyButton;
     User user = new User();
@@ -52,7 +49,9 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
         transferFundsTextView = (TextView) findViewById(R.id.transfer_funds);
         claimTransactionsTextView = (TextView) findViewById(R.id.claim_transactions);
         balanceTextview = (TextView) findViewById(R.id.balance_text_view);
+        myAccountTextview = (TextView) findViewById(R.id.my_account);
 
+        myAccountTextview.setOnClickListener(this);
         logOutButton.setOnClickListener(this);
         getCurrencyTextView.setOnClickListener(this);
         transferFundsTextView.setOnClickListener(this);
@@ -71,17 +70,24 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
 
         switch (v.getId()) {
 
+            case R.id.my_account:
+                Intent accountDetails = new Intent((UserActivity.this), (AccountActivity.class));
+                startActivity(accountDetails);
+                break;
+
             case R.id.log_out_button:
                 Intent moveToLogin = new Intent((UserActivity.this), (LoginActivity.class));
                 startActivity(moveToLogin);
                 break;
             case R.id.get_currency_textview:
                 getCurrencyEdittext.setVisibility(View.VISIBLE);
-                getCurrencyButton.setVisibility(View.VISIBLE);
+                //getCurrencyButton.setVisibility(View.VISIBLE);
                 break;
 
             case R.id.get_currency_button:
+
                 if(!getCurrencyEdittext.getText().toString().matches("")){
+                    getCurrencyButton.setVisibility(View.VISIBLE);
 
                     User admin = new User();
 
@@ -164,7 +170,7 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
                 break;
 
             case R.id.transfer_funds:
-                Intent moveToTransferFundsActivity = new Intent((UserActivity.this), (transferFundsActivity.class));
+                Intent moveToTransferFundsActivity = new Intent((UserActivity.this), (PayActivity.class));
                 startActivity(moveToTransferFundsActivity);
                 break;
             case R.id.claim_transactions:
