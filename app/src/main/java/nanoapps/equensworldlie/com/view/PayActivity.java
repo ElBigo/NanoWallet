@@ -22,12 +22,18 @@ import android.widget.Toast;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
 import nanoapps.equensworldlie.com.R;
+import nanoapps.equensworldlie.com.model.User;
 
 public class PayActivity extends AppCompatActivity {
 
     Button scanQrCodeButton;
     TextView accountIdTextview;
+    String username;
 
     private static final int CAMERA_PERMISSION_CODE = 101;
 
@@ -35,6 +41,10 @@ public class PayActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pay);
+
+
+        Intent payment = getIntent();
+        username = (String) payment.getSerializableExtra("username");
 
         scanQrCodeButton = (Button) findViewById(R.id.scan_code_button);
 
@@ -76,19 +86,25 @@ public class PayActivity extends AppCompatActivity {
 
         if(result != null){
             if(result.getContents() == null){
-                Toast.makeText(this, "Empty", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Blank", Toast.LENGTH_SHORT).show();
+
+                Intent moveToConfirmation = new Intent((this), (PaymentConfirmationActivity.class));
+                startActivity(moveToConfirmation);
+
             }
             else{
                 // content store in "result.getcontents()"
                 accountIdTextview.setText("ID: "+result.getContents());
 
-               // switch to another activity
-//                Intent moveToTransferFundsActivity = new Intent((this), (UserActivity.class));
-//                startActivity(moveToTransferFundsActivity);
+                String[] infoTx = {username,result.getContents()};
+
+//                Intent moveToConfirmation = new Intent((this), (PaymentConfirmationActivity.class)).putExtra("infoTx", infoTx);
+//                startActivity(moveToConfirmation);
             }
         }
         else{
             Toast.makeText(this, "Empty", Toast.LENGTH_SHORT).show();
+
         }
     }
 

@@ -28,7 +28,7 @@ public class rechargeActivity extends AppCompatActivity implements View.OnClickL
 
         db = new DbManager(this);
         logOutButton = (Button)findViewById(R.id.log_out_button);
-        transferFundsTextView = (TextView) findViewById(R.id.transfer_funds);
+        transferFundsTextView = (TextView) findViewById(R.id.pay);
         claimTransactionsTextView = (TextView) findViewById(R.id.claim_transactions);
         myAccountTextView = (TextView) findViewById(R.id.my_account);
         checkOutButton = (Button) findViewById(R.id.check_out);
@@ -47,7 +47,7 @@ public class rechargeActivity extends AppCompatActivity implements View.OnClickL
                 Intent moveToLogin = new Intent((this), (LoginActivity.class));
                 startActivity(moveToLogin);
                 break;
-            case R.id.transfer_funds:
+            case R.id.pay:
                 Intent moveToTransferFundsActivity = new Intent((this), (PayActivity.class));
                 startActivity(moveToTransferFundsActivity);
                 break;

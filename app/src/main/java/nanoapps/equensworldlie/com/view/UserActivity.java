@@ -46,7 +46,7 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
         getCurrencyTextView = (TextView) findViewById(R.id.get_currency_textview);
         getCurrencyEdittext = (EditText) findViewById(R.id.get_currency_edittext);
         getCurrencyButton = (Button) findViewById(R.id.get_currency_button);
-        transferFundsTextView = (TextView) findViewById(R.id.transfer_funds);
+        transferFundsTextView = (TextView) findViewById(R.id.pay);
         claimTransactionsTextView = (TextView) findViewById(R.id.claim_transactions);
         balanceTextview = (TextView) findViewById(R.id.balance_text_view);
         myAccountTextview = (TextView) findViewById(R.id.my_account);
@@ -95,6 +95,7 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
                     cursorAdmin.moveToFirst();
                     admin.setWalletId(cursorAdmin.getString(0));
                     admin.setAccountId(cursorAdmin.getString(1));
+
                     long tsLong = System.currentTimeMillis()/1000;
                     String ts =  String.valueOf(tsLong);
 
@@ -169,9 +170,9 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.get_currency_edittext:
                 break;
 
-            case R.id.transfer_funds:
-                Intent moveToTransferFundsActivity = new Intent((UserActivity.this), (PayActivity.class));
-                startActivity(moveToTransferFundsActivity);
+            case R.id.pay:
+                Intent moveToPayActivity = new Intent((UserActivity.this), (PayActivity.class)).putExtra("username",user.getUsername());
+                startActivity(moveToPayActivity);
                 break;
             case R.id.claim_transactions:
                 Intent moveToClaimTransactionsActivity = new Intent((UserActivity.this), (claimTransactionsActivity.class));
