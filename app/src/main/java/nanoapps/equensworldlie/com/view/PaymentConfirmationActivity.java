@@ -53,61 +53,65 @@ public class PaymentConfirmationActivity extends AppCompatActivity {
         paymentButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                Intent moveToLogin = new Intent((PaymentConfirmationActivity.this), (LoginActivity.class));
+                startActivity(moveToLogin);
+
                 if(!paymentEdittext.getText().toString().matches("")){
 
-                    User sender = new User();
+//                    User sender = new User();
+//
+//                    Cursor cursorAdmin = db.getReadableDatabase().query("users_table", new String[] {"WALLET_ID", "ACCOUNT_ID"},"USERNAME =?", new String[] {infoTx[0]}, null,null,null );
+//                    cursorAdmin.moveToFirst();
+//                    sender.setWalletId(cursorAdmin.getString(0));
+//                    sender.setAccountId(cursorAdmin.getString(1));
+//
+//                    long tsLong = System.currentTimeMillis()/1000;
+//                    String ts =  String.valueOf(tsLong);
+//
+//                    Map<String,String > dataSendTransactionRequest = new HashMap<String, String>();
+//                    dataSendTransactionRequest.put("action","send");
+//                    dataSendTransactionRequest.put("wallet",sender.getWalletId());
+//                    dataSendTransactionRequest.put("source",sender.getAccountId());
+//                    dataSendTransactionRequest.put("destination",infoTx[1]);
+//                    dataSendTransactionRequest.put("amount",paymentEdittext.getText().toString().trim());
+//                    dataSendTransactionRequest.put("id",ts);  // Unique ID needed for each transactions
 
-                    Cursor cursorAdmin = db.getReadableDatabase().query("users_table", new String[] {"WALLET_ID", "ACCOUNT_ID"},"USERNAME =?", new String[] {infoTx[0]}, null,null,null );
-                    cursorAdmin.moveToFirst();
-                    sender.setWalletId(cursorAdmin.getString(0));
-                    sender.setAccountId(cursorAdmin.getString(1));
-
-                    long tsLong = System.currentTimeMillis()/1000;
-                    String ts =  String.valueOf(tsLong);
-
-                    Map<String,String > dataSendTransactionRequest = new HashMap<String, String>();
-                    dataSendTransactionRequest.put("action","send");
-                    dataSendTransactionRequest.put("wallet",sender.getWalletId());
-                    dataSendTransactionRequest.put("source",sender.getAccountId());
-                    dataSendTransactionRequest.put("destination",infoTx[1]);
-                    dataSendTransactionRequest.put("amount",paymentEdittext.getText().toString().trim());
-                    dataSendTransactionRequest.put("id",ts);  // Unique ID needed for each transactions
-
-                    new Request(dataSendTransactionRequest, new RequestCallback(){
-                        @Override
-                        public void run() {
-                            super.run();
-
-                            final Handler handler = new Handler();
-
-                            try {
-                                JSONObject sendTransactionJsonResponse = new JSONObject(this.Response);
-                                String blockId = sendTransactionJsonResponse.getString("block");
-
-                                // Faire un TOAST pour montrer le blockId généré
-//                                Toast.makeText(PaymentConfirmationActivity.this, blockId, Toast.LENGTH_SHORT).show();
-
-                                handler.post(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        Toast.makeText(PaymentConfirmationActivity.this, blockId, Toast.LENGTH_SHORT).show();
-                                    }
-                                });
-                                // save that BlockID in a database with the accountId for a pending transaction
-                                // this.getWritableDatabase();
-
-
-
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-
-                        }
-
-                    }).execute("http://192.168.56.1:7076");
-                }
-                else {
-                    Toast.makeText(PaymentConfirmationActivity.this, "Enter a Value", Toast.LENGTH_SHORT).show();
+//                    new Request(dataSendTransactionRequest, new RequestCallback(){
+//                        @Override
+//                        public void run() {
+//                            super.run();
+//
+//                            final Handler handler = new Handler();
+//
+//                            try {
+//                                JSONObject sendTransactionJsonResponse = new JSONObject(this.Response);
+//                                String blockId = sendTransactionJsonResponse.getString("block");
+//
+//                                // Faire un TOAST pour montrer le blockId généré
+////                                Toast.makeText(PaymentConfirmationActivity.this, blockId, Toast.LENGTH_SHORT).show();
+//
+//                                handler.post(new Runnable() {
+//                                    @Override
+//                                    public void run() {
+//                                        Toast.makeText(PaymentConfirmationActivity.this, blockId, Toast.LENGTH_SHORT).show();
+//                                    }
+//                                });
+//                                // save that BlockID in a database with the accountId for a pending transaction
+//                                // this.getWritableDatabase();
+//
+//
+//
+//                            } catch (JSONException e) {
+//                                e.printStackTrace();
+//                            }
+//
+//                        }
+//
+//                    }).execute("http://192.168.56.1:7076");
+//                }
+//                else {
+//                    Toast.makeText(PaymentConfirmationActivity.this, "Enter a Value", Toast.LENGTH_SHORT).show();
                 }
             }
         });

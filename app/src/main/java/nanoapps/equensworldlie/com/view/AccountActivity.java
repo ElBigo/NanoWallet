@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -23,6 +25,7 @@ import nanoapps.equensworldlie.com.model.User;
 public class AccountActivity extends AppCompatActivity {
 
     User user = new User();
+    Button backAccountButton;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,6 +33,7 @@ public class AccountActivity extends AppCompatActivity {
 
         ImageView barcode = (ImageView) findViewById(R.id.bar_code);
         TextView accountDetailTextview = (TextView) findViewById(R.id.account_detail_textview);
+        backAccountButton = (Button) findViewById(R.id.back);
 
         Intent login = getIntent();
         user = (User)login.getSerializableExtra("user");
@@ -46,6 +50,14 @@ public class AccountActivity extends AppCompatActivity {
         } catch (WriterException e) {
             e.printStackTrace();
         }
+
+        backAccountButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent moveToLogin = new Intent((AccountActivity.this), (UserActivity.class));
+                startActivity(moveToLogin);
+            }
+        });
 
     }
 }

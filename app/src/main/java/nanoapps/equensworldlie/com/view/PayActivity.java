@@ -52,21 +52,24 @@ public class PayActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                /* On on click button, first check if device version is greater or equal to android 6
-                   then check the permission granted, if ok, call the camera scanner*/
-                if(Build.VERSION.SDK_INT>=23){
-                    if(checkPermission((Manifest.permission.CAMERA))){
-                        openScanner();
-                    }
-                    else{
-                        //same permission passed, also the camera code
-                        requestPermission(Manifest.permission.CAMERA, CAMERA_PERMISSION_CODE);
-                    }
+                Intent moveToConfirmation = new Intent((PayActivity.this), (PaymentConfirmationActivity.class));
+                startActivity(moveToConfirmation);
 
-                }
-                else {
-                    openScanner();
-                }
+//                /* On on click button, first check if device version is greater or equal to android 6
+//                   then check the permission granted, if ok, call the camera scanner*/
+//                if(Build.VERSION.SDK_INT>=23){
+//                    if(checkPermission((Manifest.permission.CAMERA))){
+//                        openScanner();
+//                    }
+//                    else{
+//                        //same permission passed, also the camera code
+//                        requestPermission(Manifest.permission.CAMERA, CAMERA_PERMISSION_CODE);
+//                    }
+//
+//                }
+//                else {
+//                    openScanner();
+//                }
             }
         });
     }
@@ -88,8 +91,8 @@ public class PayActivity extends AppCompatActivity {
             if(result.getContents() == null){
                 Toast.makeText(this, "Blank", Toast.LENGTH_SHORT).show();
 
-                Intent moveToConfirmation = new Intent((this), (PaymentConfirmationActivity.class));
-                startActivity(moveToConfirmation);
+//                Intent moveToConfirmation = new Intent((this), (PaymentConfirmationActivity.class));
+//                startActivity(moveToConfirmation);
 
             }
             else{
