@@ -26,7 +26,7 @@ import nanoapps.equensworldlie.com.model.User;
 public class UserActivity extends AppCompatActivity implements View.OnClickListener {
 
     DbManager db;
-    Button logOutButton;
+    TextView logOutButton;
     TextView getCurrencyTextView;
     TextView transferFundsTextView;
     TextView claimTransactionsTextView;
@@ -42,7 +42,7 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_user);
 
         db = new DbManager(this);
-        logOutButton = (Button)findViewById(R.id.log_out_button);
+        logOutButton = (TextView)findViewById(R.id.log_out_button);
         getCurrencyTextView = (TextView) findViewById(R.id.get_currency_textview);
         getCurrencyEdittext = (EditText) findViewById(R.id.get_currency_edittext);
         getCurrencyButton = (Button) findViewById(R.id.get_currency_button);
