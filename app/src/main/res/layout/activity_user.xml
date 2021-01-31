@@ -116,18 +116,36 @@
 
         </LinearLayout>
 
-        <Button
-            android:id="@+id/pay"
-            android:layout_width="200dp"
-            android:layout_height="40dp"
-            android:layout_marginTop="50dp"
-            android:text="@string/transfer_funds"
-            android:textAllCaps="false"
-            android:textColor="#FFFFFF"
-            android:background="@drawable/custom_button" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/pay"
+                android:layout_width="200dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="50dp"
+                android:text="@string/transfer_funds"
+                android:textAllCaps="false"
+                android:textColor="#FFFFFF"
+                android:background="@drawable/custom_button" />
+
+            <Button
+                android:id="@+id/test_payment_button"
+                android:layout_width="60dp"
+                android:layout_height="40dp"
+                android:layout_marginLeft="50dp"
+                android:layout_gravity="center_vertical"
+                android:backgroundTint="#495A7E"
+                android:text="TestPay"
+                android:background="@drawable/custom_button"/>
+        </LinearLayout>
+
 
         <TextView
             android:id="@+id/claim_transactions"
+            android:onClick="PopupPendingBlock"
             android:layout_width="200dp"
             android:layout_height="40dp"
             android:layout_marginTop="50dp"

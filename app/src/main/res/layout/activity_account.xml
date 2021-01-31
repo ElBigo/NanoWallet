@@ -25,15 +25,6 @@
             android:layout_gravity="center_horizontal"
             android:textStyle="bold"
             android:textSize="20sp"/>
-        <Button
-            android:id="@+id/back"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:layout_marginRight="80dp"
-            android:layout_gravity="end"
-            android:backgroundTint="#495A7E"
-            android:text="@string/back"/>
 
     </LinearLayout>
 

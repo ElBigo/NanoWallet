@@ -198,6 +198,7 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+
     public void PopupPendingBlock(View view){
 
         Button proceedButton;
@@ -271,4 +272,5 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
 
         myDialog.show();
     }
+
 }
