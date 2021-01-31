@@ -6,11 +6,11 @@ import android.os.Bundle;
 
 import nanoapps.equensworldlie.com.R;
 
-public class claimTransactionsActivity extends AppCompatActivity {
+public class PendingActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_claim_transactions);
+        setContentView(R.layout.activity_pending);
     }
 }

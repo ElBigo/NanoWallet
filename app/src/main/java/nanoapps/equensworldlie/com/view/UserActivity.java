@@ -2,10 +2,12 @@ package nanoapps.equensworldlie.com.view;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -34,7 +36,12 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
     TextView myAccountTextview;
     EditText getCurrencyEdittext;
     Button getCurrencyButton;
+
     User user = new User();
+    Dialog myDialog;
+
+    Button testPaymentButton;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,22 +54,27 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
         getCurrencyEdittext = (EditText) findViewById(R.id.get_currency_edittext);
         getCurrencyButton = (Button) findViewById(R.id.get_currency_button);
         transferFundsTextView = (TextView) findViewById(R.id.pay);
-        claimTransactionsTextView = (TextView) findViewById(R.id.claim_transactions);
+        //claimTransactionsTextView = (TextView) findViewById(R.id.claim_transactions);
         balanceTextview = (TextView) findViewById(R.id.balance_text_view);
         myAccountTextview = (TextView) findViewById(R.id.my_account);
+
+        testPaymentButton = (Button) findViewById(R.id.test_payment_button);
+        testPaymentButton.setOnClickListener(this);
+
+        myDialog = new Dialog(this);
 
         myAccountTextview.setOnClickListener(this);
         logOutButton.setOnClickListener(this);
         getCurrencyTextView.setOnClickListener(this);
         transferFundsTextView.setOnClickListener(this);
-        claimTransactionsTextView.setOnClickListener(this);
+        //claimTransactionsTextView.setOnClickListener(this);
         getCurrencyEdittext.setOnClickListener(this);
         getCurrencyButton.setOnClickListener(this);
 
         Intent login = getIntent();
         user = (User)login.getSerializableExtra("user");
 
-        balanceTextview.setText(String.valueOf(user.getBalance()));
+        balanceTextview.setText(user.getBalance());
     }
 
     @Override
@@ -70,8 +82,13 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
 
         switch (v.getId()) {
 
+            case R.id.test_payment_button:
+                Intent testPayment = new Intent((UserActivity.this), (TestPaymentActivity.class)).putExtra("user", user);
+                startActivity(testPayment);
+                break;
+
             case R.id.my_account:
-                Intent accountDetails = new Intent((UserActivity.this), (AccountActivity.class));
+                Intent accountDetails = new Intent((UserActivity.this), (AccountActivity.class)).putExtra("user", user);
                 startActivity(accountDetails);
                 break;
 
@@ -81,7 +98,7 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.get_currency_textview:
                 getCurrencyEdittext.setVisibility(View.VISIBLE);
-                //getCurrencyButton.setVisibility(View.VISIBLE);
+                getCurrencyButton.setVisibility(View.VISIBLE);
                 break;
 
             case R.id.get_currency_button:
@@ -174,10 +191,84 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
                 Intent moveToPayActivity = new Intent((UserActivity.this), (PayActivity.class)).putExtra("username",user.getUsername());
                 startActivity(moveToPayActivity);
                 break;
-            case R.id.claim_transactions:
-                Intent moveToClaimTransactionsActivity = new Intent((UserActivity.this), (claimTransactionsActivity.class));
-                startActivity(moveToClaimTransactionsActivity);
-                break;
+//            case R.id.claim_transactions:
+//                Intent moveToClaimTransactionsActivity = new Intent((UserActivity.this), (PendingActivity.class));
+//                startActivity(moveToClaimTransactionsActivity);
+//                break;
         }
+    }
+
+    public void PopupPendingBlock(View view){
+
+        Button proceedButton;
+        TextView pendingBlockId;
+        myDialog.setContentView(R.layout.popup_pending_block);
+
+        pendingBlockId = (TextView) myDialog.findViewById(R.id.pending_block_id);
+        proceedButton = (Button) myDialog.findViewById(R.id.proceed_button);
+
+        Map<String,String > pendingBlockTransaction = new HashMap<String, String>();
+        pendingBlockTransaction.put("action","pending");
+        pendingBlockTransaction.put("account",user.getAccountId());
+        pendingBlockTransaction.put("count","1");
+
+        new Request(pendingBlockTransaction, new RequestCallback(){
+
+            @Override
+            public void run() {
+                super.run();
+
+                try {
+                    JSONObject pendingBlockJsonResponse = new JSONObject(this.Response);
+                    String blockId = pendingBlockJsonResponse.getString("blocks");
+                    blockId = blockId.replace("[\"","");
+                    blockId = blockId.replace("\"]","");
+
+                    pendingBlockId.setText(blockId);
+                    Log.e("Response",Response);
+                    Log.e("Block",blockId);
+
+                    // Receive block implementation
+                    String finalBlockId = blockId;
+                    proceedButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+
+                            Map<String,String > receiveBlock = new HashMap<String, String>();
+                            receiveBlock.put("action","receive");
+                            receiveBlock.put("wallet",user.getWalletId());
+                            receiveBlock.put("account",user.getAccountId());
+                            receiveBlock.put("block", finalBlockId);
+
+                            new Request(receiveBlock, new RequestCallback(){
+
+                                @Override
+                                public void run() {
+                                    super.run();
+
+                                    try {
+                                        JSONObject accountBalanceJson = new JSONObject(this.Response);
+                                        Log.e("Validation",Response);
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            }).execute("http://192.168.56.1:7076");
+
+                            myDialog.dismiss();
+                        }
+                    });
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }).execute("http://192.168.56.1:7076");
+
+
+
+        myDialog.show();
     }
 }

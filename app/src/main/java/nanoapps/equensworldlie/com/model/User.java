@@ -10,7 +10,7 @@ public class User implements Serializable {
     private String accountId;
     private String pKey;
     private String sKey;
-    private int balance;
+    private String balance;
 
 
     public User(){
@@ -20,7 +20,7 @@ public class User implements Serializable {
         this.accountId = "";
         this.pKey = "";
         this.sKey = "";
-        this.balance = 0;
+        this.balance = "";
     }
     public User(String username, String password, String walletId, String accountId, String pKey, String sKey) {
         this.username = username;
@@ -29,7 +29,7 @@ public class User implements Serializable {
         this.accountId = accountId;
         this.pKey = pKey;
         this.sKey = sKey;
-        this.balance = 0;
+        this.balance = "";
     }
 
     public String getUsername() {
@@ -41,7 +41,7 @@ public class User implements Serializable {
     public String getWalletId() {
         return walletId;
     }
-    public int getBalance() {
+    public String getBalance() {
         return balance;
     }
     public String getAccountId() { return accountId; }
@@ -56,7 +56,7 @@ public class User implements Serializable {
     public void setWalletId(String walletId) {
         this.walletId = walletId;
     }
-    public void setBalance(int balance) {
+    public void setBalance(String balance) {
         this.balance = balance;
     }
 

@@ -13,9 +13,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.NanoApps">
-        <activity android:name=".view.PaymentConfirmationActivity"></activity>
+        <activity android:name=".view.TestPaymentActivity"></activity>
+        <activity android:name=".view.PaymentConfirmationActivity" />
         <activity android:name=".view.AccountActivity" />
-        <activity android:name=".view.claimTransactionsActivity" />
+        <activity android:name=".view.PendingActivity" />
         <activity android:name=".view.PayActivity" />
         <activity android:name=".view.rechargeActivity" />
         <activity android:name=".view.UserActivity" />

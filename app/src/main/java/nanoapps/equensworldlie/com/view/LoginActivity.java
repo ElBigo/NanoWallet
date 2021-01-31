@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -35,7 +34,7 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_login);
 
         db = new DbManager(this);
         editUsername = (EditText) findViewById(R.id.edit_username);
@@ -85,7 +84,7 @@ public class LoginActivity extends AppCompatActivity {
 
                                 //TODO
                                 // This casting modifies the Value of the Balance. to be review!
-                                user.setBalance((int) accountBalanceJson.getInt("balance"));
+                                user.setBalance(accountBalanceJson.getString("balance"));
 
                                 Toast.makeText(LoginActivity.this, "Login Successful", Toast.LENGTH_SHORT).show();
                                 Intent userIntent = new Intent((LoginActivity.this), (UserActivity.class)).putExtra("user", user);

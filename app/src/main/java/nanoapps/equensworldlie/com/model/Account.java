@@ -5,7 +5,7 @@ public class Account {
     private final String accountId;
     private final String pKey;
     private final String sKey;
-    private int balance = 0;
+    private String balance;
 
     public Account(String accountId, String pKey, String sKey) {
         this.accountId = accountId;
@@ -26,11 +26,11 @@ public class Account {
         return sKey;
     }
 
-    public int getBalance() {
+    public String getBalance() {
         return balance;
     }
 
-    public void setBalance(int balance) {
+    public void setBalance(String balance) {
         this.balance = balance;
     }
 }

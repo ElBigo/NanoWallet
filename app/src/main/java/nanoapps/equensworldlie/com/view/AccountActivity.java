@@ -2,8 +2,10 @@ package nanoapps.equensworldlie.com.view;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -20,6 +22,7 @@ import nanoapps.equensworldlie.com.model.User;
 
 public class AccountActivity extends AppCompatActivity {
 
+    User user = new User();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,15 +30,16 @@ public class AccountActivity extends AppCompatActivity {
 
         ImageView barcode = (ImageView) findViewById(R.id.bar_code);
         TextView accountDetailTextview = (TextView) findViewById(R.id.account_detail_textview);
-        accountDetailTextview.setText("nano_3e3j5tkog48pnny9dmfzj1r16pg8t1e76dz5tmac6iq689wyjfpiij4txtdo");
 
-        User user = new User();
-        String barCodeData = "nano_3e3j5tkog48pnny9dmfzj1r16pg8t1e76dz5tmac6iq689wyjfpiij4txtdo";
+        Intent login = getIntent();
+        user = (User)login.getSerializableExtra("user");
+
+        accountDetailTextview.setText(user.getAccountId());
 
         MultiFormatWriter multiFormatWriter = new MultiFormatWriter();
 
         try {
-            BitMatrix bitMatrix = multiFormatWriter.encode(barCodeData, BarcodeFormat.QR_CODE, 200,200);
+            BitMatrix bitMatrix = multiFormatWriter.encode(user.getAccountId(), BarcodeFormat.QR_CODE, 200,200);
             BarcodeEncoder barcodeEncoder = new BarcodeEncoder();
             Bitmap bitmap = barcodeEncoder.createBitmap(bitMatrix);
             barcode.setImageBitmap(bitmap);
