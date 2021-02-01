@@ -9,9 +9,10 @@
 
     <TextView
         android:id="@+id/payment_textview"
-        android:layout_width="match_parent"
-        android:layout_height="30dp"
+        android:layout_width="wrap_content"
+        android:layout_height="35dp"
         android:layout_marginTop="200dp"
+        android:gravity="center"
         android:text="Pay To: "/>
     <EditText
         android:id="@+id/payment_edittext"
@@ -26,7 +27,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="400dp"
-        android:backgroundTint="#495A7E"
+        android:textAllCaps="false"
+        android:textColor="#FFFFFF"
         android:text="@string/pay"/>
 
 </RelativeLayout>

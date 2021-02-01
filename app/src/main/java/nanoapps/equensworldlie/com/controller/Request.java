@@ -96,9 +96,6 @@ public class Request extends AsyncTask<String, String, String> {
             onEndReq.run();
         }
 
-        // int entier = (int) json.getInt("protocol_version");
-        // String chaine = json.getString("network_identifier");
-        // System.out.println("protocol_version: "+ entier);
     }
 
 }

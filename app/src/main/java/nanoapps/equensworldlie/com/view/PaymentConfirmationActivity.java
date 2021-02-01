@@ -49,27 +49,14 @@ public class PaymentConfirmationActivity extends AppCompatActivity {
 
         Intent cnfPayment = getIntent();
 
-        /* infoTx[0] = sender username
-           infoTx[1] = "receiver account ID" */
-        //String[] infoTx = (String[]) cnfPayment.getSerializableExtra("infoTx");
 
         specialUser = (SpecialUser) cnfPayment.getSerializableExtra("specialUser");
 
-//        Log.e("user",specialUser.getUsername());
+        paymentTextview.setText(specialUser.getRecipient());
 
         user.setUsername(specialUser.getUsername());
         user.setAccountId(specialUser.getAccountId());
         user.setWalletId(specialUser.getWalletId());
-
-//        System.out.println("++++Content= "+infoTx[1]);
-//        Log.e("receiver",infoTx[1]);
-//        if(infoTx[1].isEmpty()){
-//
-//        }
-//        else{
-//            paymentTextview.setText(infoTx[1]);
-//        }
-
 
 
         paymentButton.setOnClickListener(new View.OnClickListener() {
@@ -80,13 +67,6 @@ public class PaymentConfirmationActivity extends AppCompatActivity {
                 startActivity(moveToLogin);
 
                 if(!paymentEdittext.getText().toString().matches("")){
-
-//                    User sender = new User();
-//
-//                    Cursor cursorAdmin = db.getReadableDatabase().query("users_table", new String[] {"WALLET_ID", "ACCOUNT_ID"},"USERNAME =?", new String[] {specialUser.getUsername()}, null,null,null );
-//                    cursorAdmin.moveToFirst();
-//                    sender.setWalletId(cursorAdmin.getString(0));
-//                    sender.setAccountId(cursorAdmin.getString(1));
 
                     long tsLong = System.currentTimeMillis()/1000;
                     String ts =  String.valueOf(tsLong);
@@ -104,42 +84,14 @@ public class PaymentConfirmationActivity extends AppCompatActivity {
                         public void run() {
                             super.run();
 
-
                             try {
                                 JSONObject sendTransactionJsonResponse = new JSONObject(this.Response);
                                 String blockId = sendTransactionJsonResponse.getString("block");
 
+                                Toast.makeText(PaymentConfirmationActivity.this, "Block ID: "+blockId, Toast.LENGTH_LONG).show();
 
-                                Map<String, String> accountBalance = new HashMap<String, String>();
-
-                                accountBalance.put("action","account_balance");
-                                accountBalance.put("account",user.getAccountId());
-
-
-                                new Request(accountBalance, new RequestCallback(){
-
-                                    @Override
-                                    public void run() {
-                                        super.run();
-
-                                        String balance = this.Response;
-
-                                        try {
-                                            JSONObject accountBalanceJson = new JSONObject(balance);
-
-                                            //TODO
-                                            // This casting modifies the Value of the Balance. to be review!
-                                            user.setBalance(accountBalanceJson.getString("balance"));
-
-                                            Intent userIntent = new Intent((PaymentConfirmationActivity.this), (UserActivity.class)).putExtra("user", user);
-                                            startActivity(userIntent);
-
-                                        } catch (JSONException e) {
-                                            e.printStackTrace();
-                                        }
-                                    }
-                                }).execute("http://192.168.0.103:7076");
-
+                                Intent userIntent = new Intent((PaymentConfirmationActivity.this), (UserActivity.class)).putExtra("user", user);
+                                startActivity(userIntent);
 
                             } catch (JSONException e) {
                                 e.printStackTrace();
@@ -150,7 +102,10 @@ public class PaymentConfirmationActivity extends AppCompatActivity {
                     }).execute("http://192.168.0.103:7076");
                 }
                 else {
-                    Toast.makeText(PaymentConfirmationActivity.this, "Enter a Value", Toast.LENGTH_LONG).show();
+                    Toast.makeText(PaymentConfirmationActivity.this, "Value Required", Toast.LENGTH_SHORT).show();
+
+                    Intent userIntent = new Intent((PaymentConfirmationActivity.this), (UserActivity.class)).putExtra("user", user);
+                    startActivity(userIntent);
                 }
             }
         });

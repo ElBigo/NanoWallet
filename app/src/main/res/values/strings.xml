@@ -16,13 +16,13 @@
     <string name="my_account">My account</string>
     <string name="get_currency">Recharge</string>
     <string name="transfer_funds">Pay</string>
-    <string name="claim_transactions">Pending transactions</string>
+    <string name="claim_transactions">Pending Block</string>
     <string name="check_out">Check out</string>
     <string name="scan_code">Scan code</string>
     <string name="enter_username">Enter username</string>
     <string name="value">Value...</string>
     <string name="ok">Ok</string>
-    <string name="scan_qr_code">Scan Qr Code</string>
+    <string name="scan_qr_code">Scan QR Code</string>
     <string name="pay">Pay</string>
     <string name="proceed">Proceed</string>
 </resources>

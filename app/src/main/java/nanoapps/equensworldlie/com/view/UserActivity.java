@@ -7,11 +7,13 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.SystemClock;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -35,12 +37,11 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
     TextView balanceTextview;
     TextView myAccountTextview;
     EditText getCurrencyEdittext;
+    TextView refreshBalance;
     Button getCurrencyButton;
-
+    final Handler handler = new Handler();
     User user = new User();
     Dialog myDialog;
-
-    Button testPaymentButton;
 
 
     @Override
@@ -57,9 +58,8 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
         //claimTransactionsTextView = (TextView) findViewById(R.id.claim_transactions);
         balanceTextview = (TextView) findViewById(R.id.balance_text_view);
         myAccountTextview = (TextView) findViewById(R.id.my_account);
+        refreshBalance = (TextView) findViewById(R.id.refresh_balance);
 
-        testPaymentButton = (Button) findViewById(R.id.test_payment_button);
-        testPaymentButton.setOnClickListener(this);
 
         myDialog = new Dialog(this);
 
@@ -70,6 +70,7 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
         //claimTransactionsTextView.setOnClickListener(this);
         getCurrencyEdittext.setOnClickListener(this);
         getCurrencyButton.setOnClickListener(this);
+        refreshBalance.setOnClickListener(this);
 
         Intent login = getIntent();
         user = (User)login.getSerializableExtra("user");
@@ -82,9 +83,37 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
 
         switch (v.getId()) {
 
-            case R.id.test_payment_button:
-                Intent testPayment = new Intent((UserActivity.this), (TestPaymentActivity.class)).putExtra("user", user);
-                startActivity(testPayment);
+            case R.id.refresh_balance:
+
+
+                Map<String, String> accountBalance = new HashMap<String, String>();
+
+                accountBalance.put("action","account_balance");
+                accountBalance.put("account",user.getAccountId());
+
+                new Request(accountBalance, new RequestCallback(){
+
+                    @Override
+                    public void run() {
+                        super.run();
+
+                        try {
+                            JSONObject accountBalanceJson = new JSONObject(this.Response);
+                            handler.post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    try {
+                                        balanceTextview.setText(accountBalanceJson.getString("balance"));
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            });
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }).execute("http://192.168.0.103:7076");
                 break;
 
             case R.id.my_account:
@@ -154,7 +183,6 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
                                         accountBalance.put("account",user.getAccountId());
 
                                         new Request(accountBalance, new RequestCallback(){
-                                            final Handler handler = new Handler();
 
                                             @Override
                                             public void run() {
@@ -224,45 +252,56 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
                 try {
                     JSONObject pendingBlockJsonResponse = new JSONObject(this.Response);
                     String blockId = pendingBlockJsonResponse.getString("blocks");
-                    blockId = blockId.replace("[\"","");
-                    blockId = blockId.replace("\"]","");
 
-                    pendingBlockId.setText(blockId);
-                    Log.e("Response",Response);
-                    Log.e("Block",blockId);
+                    switch (blockId){
 
-                    // Receive block implementation
-                    String finalBlockId = blockId;
-                    proceedButton.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-
-                            Map<String,String > receiveBlock = new HashMap<String, String>();
-                            receiveBlock.put("action","receive");
-                            receiveBlock.put("wallet",user.getWalletId());
-                            receiveBlock.put("account",user.getAccountId());
-                            receiveBlock.put("block", finalBlockId);
-
-                            new Request(receiveBlock, new RequestCallback(){
-
+                        case "":
+                            handler.post(new Runnable() {
                                 @Override
                                 public void run() {
-                                    super.run();
-
-                                    try {
-                                        JSONObject accountBalanceJson = new JSONObject(this.Response);
-                                        Log.e("Validation",Response);
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
-                                    }
+                                    pendingBlockId.setText("No Pending Block!");
+                                    Log.e("IN","In");
                                 }
-                            }).execute("http://192.168.0.103:7076");
-
+                            });
+                            SystemClock.sleep(2000);
                             myDialog.dismiss();
-                        }
-                    });
+                            break;
+                        default:
+                            blockId = blockId.replace("[\"","");
+                            blockId = blockId.replace("\"]","");
 
+                            pendingBlockId.setText(blockId);
 
+                            // Receive block implementation
+                            String finalBlockId = blockId;
+                            proceedButton.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+
+                                    Map<String,String > receiveBlock = new HashMap<String, String>();
+                                    receiveBlock.put("action","receive");
+                                    receiveBlock.put("wallet",user.getWalletId());
+                                    receiveBlock.put("account",user.getAccountId());
+                                    receiveBlock.put("block", finalBlockId);
+
+                                    new Request(receiveBlock, new RequestCallback(){
+
+                                        @Override
+                                        public void run() {
+                                            super.run();
+
+                                            try {
+                                                JSONObject accountBalanceJson = new JSONObject(this.Response);
+                                            } catch (JSONException e) {
+                                                e.printStackTrace();
+                                            }
+                                        }
+                                    }).execute("http://192.168.0.103:7076");
+
+                                    myDialog.dismiss();
+                                }
+                            });
+                    }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

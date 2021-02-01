@@ -26,7 +26,8 @@
         android:id="@+id/scan_code_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:backgroundTint="#495A7E"
+        android:textAllCaps="false"
+        android:textColor="#FFFFFF"
         android:layout_below="@+id/bar_code"
         android:text="@string/scan_qr_code" />
 

@@ -13,6 +13,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -22,6 +23,8 @@ import android.widget.Toast;
 
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
+
+import org.json.JSONException;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -35,6 +38,7 @@ public class PayActivity extends AppCompatActivity {
 
     Button scanQrCodeButton;
     TextView accountIdTextview;
+    final Handler handler = new Handler();
 
     User user = new User();
     SpecialUser specialUser = new SpecialUser();
@@ -97,7 +101,7 @@ public class PayActivity extends AppCompatActivity {
 
         if(result != null){
             if(result.getContents() == null){
-                Toast.makeText(this, "Blank", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Empty", Toast.LENGTH_LONG).show();
 
 //                Intent moveToUserActivity = new Intent((this), (UserActivity.class));
 //                startActivity(moveToUserActivity);
@@ -105,13 +109,8 @@ public class PayActivity extends AppCompatActivity {
             }
             else{
                 // content store in "result.getcontents()"
-               // accountIdTextview.setText("ID: "+result.getContents());
-
-
-                //String[] infoTx = {user.getUsername(),result.getContents()};
 
                 specialUser.setRecipient(result.getContents());
-
                 Toast.makeText(this, "QR_Value: "+result.getContents(), Toast.LENGTH_LONG).show();
 
                 Intent moveToConfirmation = new Intent((this), (PaymentConfirmationActivity.class)).putExtra("specialUser", specialUser);
