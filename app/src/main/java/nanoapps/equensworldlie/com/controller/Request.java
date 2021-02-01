@@ -89,6 +89,7 @@ public class Request extends AsyncTask<String, String, String> {
     @Override
     protected void onPostExecute(String s) {
 
+        Log.e("Output",s);
         super.onPostExecute(s);
         if(onEndReq!=null){
             onEndReq.setResponse(s);

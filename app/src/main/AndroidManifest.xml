@@ -4,6 +4,8 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CAMERA" />
+    <uses-feature android:name="android.hardware.camera" />
+    <uses-feature android:name="android.hardware.camera.autofocus"/>
 
     <application
         android:allowBackup="true"
@@ -13,7 +15,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.NanoApps">
-        <activity android:name=".view.TestPaymentActivity"></activity>
+        <activity android:name=".view.TestPaymentActivity" />
         <activity android:name=".view.PaymentConfirmationActivity" />
         <activity android:name=".view.AccountActivity" />
         <activity android:name=".view.PendingActivity" />

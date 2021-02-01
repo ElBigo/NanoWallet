@@ -31,7 +31,7 @@ public class TestPaymentActivity extends AppCompatActivity {
     TextView paymentTextview;
     EditText paymentEdittext;
     Button paymentButton;
-    String accountRecipient = "nano_1i4wtgqy9iptprchi4bgwxhs1obb4pubb8yawhj8jqj9npegjss9miqoqrnj";
+    String accountRecipient;
 
     User user = new User();
 
@@ -49,13 +49,13 @@ public class TestPaymentActivity extends AppCompatActivity {
         Intent login = getIntent();
         user = (User)login.getSerializableExtra("user");
 
-//        Intent cnfPayment = getIntent();
+        Intent cnfPayment = getIntent();
 
         /* infoTx[0] = sender username
            infoTx[1] = "receiver account ID" */
-//        String[] infoTx = (String[]) cnfPayment.getSerializableExtra("infoTx");
-//        paymentTextview.setText(infoTx[1]);
-        paymentTextview.setText(accountRecipient);
+        String[] infoTx = (String[]) cnfPayment.getSerializableExtra("infoTx");
+        paymentTextview.setText(infoTx[1]);
+        //paymentTextview.setText(accountRecipient);
 
 
         paymentButton.setOnClickListener(new View.OnClickListener() {
@@ -77,8 +77,8 @@ public class TestPaymentActivity extends AppCompatActivity {
                     dataSendTransactionRequest.put("action","send");
                     dataSendTransactionRequest.put("wallet",sender.getWalletId());
                     dataSendTransactionRequest.put("source",sender.getAccountId());
-                    //dataSendTransactionRequest.put("destination",infoTx[1]);
-                    dataSendTransactionRequest.put("destination",accountRecipient);
+                    dataSendTransactionRequest.put("destination",infoTx[1]);
+                    //dataSendTransactionRequest.put("destination",accountRecipient);
                     dataSendTransactionRequest.put("amount",paymentEdittext.getText().toString().trim());
                     dataSendTransactionRequest.put("id",ts);  // Unique ID needed for each transactions
 
@@ -117,7 +117,7 @@ public class TestPaymentActivity extends AppCompatActivity {
 
                         }
 
-                    }).execute("http://192.168.56.1:7076");
+                    }).execute("http://192.168.0.103:7076");
                 }
                 else {
                     Toast.makeText(TestPaymentActivity.this, "Enter a Value", Toast.LENGTH_LONG).show();

@@ -13,6 +13,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -27,13 +28,16 @@ import java.util.HashMap;
 import java.util.Map;
 
 import nanoapps.equensworldlie.com.R;
+import nanoapps.equensworldlie.com.model.SpecialUser;
 import nanoapps.equensworldlie.com.model.User;
 
 public class PayActivity extends AppCompatActivity {
 
     Button scanQrCodeButton;
     TextView accountIdTextview;
-    String username;
+
+    User user = new User();
+    SpecialUser specialUser = new SpecialUser();
 
     private static final int CAMERA_PERMISSION_CODE = 101;
 
@@ -44,7 +48,11 @@ public class PayActivity extends AppCompatActivity {
 
 
         Intent payment = getIntent();
-        username = (String) payment.getSerializableExtra("username");
+        user = (User) payment.getSerializableExtra("user");
+
+        specialUser.setUsername(user.getUsername());
+        specialUser.setAccountId(user.getAccountId());
+        specialUser.setWalletId(user.getWalletId());
 
         scanQrCodeButton = (Button) findViewById(R.id.scan_code_button);
 
@@ -52,24 +60,24 @@ public class PayActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                Intent moveToConfirmation = new Intent((PayActivity.this), (PaymentConfirmationActivity.class));
-                startActivity(moveToConfirmation);
+//                Intent moveToConfirmation = new Intent((PayActivity.this), (PaymentConfirmationActivity.class));
+//                startActivity(moveToConfirmation);
 
-//                /* On on click button, first check if device version is greater or equal to android 6
-//                   then check the permission granted, if ok, call the camera scanner*/
-//                if(Build.VERSION.SDK_INT>=23){
-//                    if(checkPermission((Manifest.permission.CAMERA))){
-//                        openScanner();
-//                    }
-//                    else{
-//                        //same permission passed, also the camera code
-//                        requestPermission(Manifest.permission.CAMERA, CAMERA_PERMISSION_CODE);
-//                    }
-//
-//                }
-//                else {
-//                    openScanner();
-//                }
+                /* On on click button, first check if device version is greater or equal to android 6
+                   then check the permission granted, if ok, call the camera scanner*/
+                if(Build.VERSION.SDK_INT>=23){
+                    if(checkPermission((Manifest.permission.CAMERA))){
+                        openScanner();
+                    }
+                    else{
+                        //same permission passed, also the camera code
+                        requestPermission(Manifest.permission.CAMERA, CAMERA_PERMISSION_CODE);
+                    }
+
+                }
+                else {
+                    openScanner();
+                }
             }
         });
     }
@@ -89,24 +97,29 @@ public class PayActivity extends AppCompatActivity {
 
         if(result != null){
             if(result.getContents() == null){
-                Toast.makeText(this, "Blank", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Blank", Toast.LENGTH_LONG).show();
 
-//                Intent moveToConfirmation = new Intent((this), (PaymentConfirmationActivity.class));
-//                startActivity(moveToConfirmation);
+//                Intent moveToUserActivity = new Intent((this), (UserActivity.class));
+//                startActivity(moveToUserActivity);
 
             }
             else{
                 // content store in "result.getcontents()"
-                accountIdTextview.setText("ID: "+result.getContents());
+               // accountIdTextview.setText("ID: "+result.getContents());
 
-                String[] infoTx = {username,result.getContents()};
 
-//                Intent moveToConfirmation = new Intent((this), (PaymentConfirmationActivity.class)).putExtra("infoTx", infoTx);
-//                startActivity(moveToConfirmation);
+                //String[] infoTx = {user.getUsername(),result.getContents()};
+
+                specialUser.setRecipient(result.getContents());
+
+                Toast.makeText(this, "QR_Value: "+result.getContents(), Toast.LENGTH_LONG).show();
+
+                Intent moveToConfirmation = new Intent((this), (PaymentConfirmationActivity.class)).putExtra("specialUser", specialUser);
+                startActivity(moveToConfirmation);
             }
         }
         else{
-            Toast.makeText(this, "Empty", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Empty", Toast.LENGTH_LONG).show();
 
         }
     }

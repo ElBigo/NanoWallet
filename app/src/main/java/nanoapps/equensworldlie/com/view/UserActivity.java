@@ -124,6 +124,8 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
                     dataSendTransactionRequest.put("amount",getCurrencyEdittext.getText().toString().trim());
                     dataSendTransactionRequest.put("id",ts);  // Unique ID needed for each transactions
 
+                    Log.e("Wallet Admin",admin.getWalletId());
+
                     new Request(dataSendTransactionRequest, new RequestCallback(){
 
                         @Override
@@ -174,21 +176,21 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
                                                     e.printStackTrace();
                                                 }
                                             }
-                                        }).execute("http://192.168.56.1:7076");
+                                        }).execute("http://192.168.0.103:7076");
                                     }
-                                }).execute("http://192.168.56.1:7076");
+                                }).execute("http://192.168.0.103:7076");
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
                         }
-                    }).execute("http://192.168.56.1:7076");
+                    }).execute("http://192.168.0.103:7076");
                 }
                 break;
             case R.id.get_currency_edittext:
                 break;
 
             case R.id.pay:
-                Intent moveToPayActivity = new Intent((UserActivity.this), (PayActivity.class)).putExtra("username",user.getUsername());
+                Intent moveToPayActivity = new Intent((UserActivity.this), (PayActivity.class)).putExtra("user",user);
                 startActivity(moveToPayActivity);
                 break;
 //            case R.id.claim_transactions:
@@ -254,7 +256,7 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
                                         e.printStackTrace();
                                     }
                                 }
-                            }).execute("http://192.168.56.1:7076");
+                            }).execute("http://192.168.0.103:7076");
 
                             myDialog.dismiss();
                         }
@@ -266,7 +268,7 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
                 }
 
             }
-        }).execute("http://192.168.56.1:7076");
+        }).execute("http://192.168.0.103:7076");
 
 
 

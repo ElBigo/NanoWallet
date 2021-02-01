@@ -18,6 +18,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import nanoapps.equensworldlie.com.R;
+import nanoapps.equensworldlie.com.controller.PostHttp;
 import nanoapps.equensworldlie.com.controller.Request;
 import nanoapps.equensworldlie.com.controller.RequestCallback;
 import nanoapps.equensworldlie.com.model.DbManager;
@@ -94,11 +95,11 @@ public class LoginActivity extends AppCompatActivity {
                                 e.printStackTrace();
                             }
                         }
-                    }).execute("http://192.168.56.1:7076");
-//
-//                    Toast.makeText(LoginActivity.this, "Login Successful", Toast.LENGTH_SHORT).show();
-//                    Intent userIntent = new Intent((LoginActivity.this), (UserActivity.class)).putExtra("user", user);
-//                    startActivity(userIntent);
+                    }).execute("http://192.168.0.103:7076");
+
+                    Toast.makeText(LoginActivity.this, "Login Successful", Toast.LENGTH_SHORT).show();
+                    Intent userIntent = new Intent((LoginActivity.this), (UserActivity.class)).putExtra("user", user);
+                    startActivity(userIntent);
                 }
                 else {
                     Toast.makeText(LoginActivity.this, "Login Failed", Toast.LENGTH_SHORT).show();
