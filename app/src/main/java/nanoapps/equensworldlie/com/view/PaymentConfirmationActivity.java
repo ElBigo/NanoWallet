@@ -33,6 +33,8 @@ public class PaymentConfirmationActivity extends AppCompatActivity {
     EditText paymentEdittext;
     Button paymentButton;
 
+    private static final String HOST_ADDRESS  = "http://192.168.1.19:7076";
+
     SpecialUser specialUser = new SpecialUser();
     User user = new User();
 
@@ -99,7 +101,7 @@ public class PaymentConfirmationActivity extends AppCompatActivity {
 
                         }
 
-                    }).execute("http://192.168.0.103:7076");
+                    }).execute(HOST_ADDRESS);
                 }
                 else {
                     Toast.makeText(PaymentConfirmationActivity.this, "Value Required", Toast.LENGTH_SHORT).show();

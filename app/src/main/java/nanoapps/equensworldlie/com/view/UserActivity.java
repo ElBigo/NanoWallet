@@ -39,6 +39,8 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
     EditText getCurrencyEdittext;
     TextView refreshBalance;
     Button getCurrencyButton;
+
+    private static final String HOST_ADDRESS  = "http://192.168.1.19:7076";
     final Handler handler = new Handler();
     User user = new User();
     Dialog myDialog;
@@ -113,7 +115,7 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
                             e.printStackTrace();
                         }
                     }
-                }).execute("http://192.168.0.103:7076");
+                }).execute(HOST_ADDRESS);
                 break;
 
             case R.id.my_account:
@@ -204,14 +206,14 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
                                                     e.printStackTrace();
                                                 }
                                             }
-                                        }).execute("http://192.168.0.103:7076");
+                                        }).execute(HOST_ADDRESS);
                                     }
-                                }).execute("http://192.168.0.103:7076");
+                                }).execute(HOST_ADDRESS);
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
                         }
-                    }).execute("http://192.168.0.103:7076");
+                    }).execute(HOST_ADDRESS);
                 }
                 break;
             case R.id.get_currency_edittext:
@@ -260,7 +262,6 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
                                 @Override
                                 public void run() {
                                     pendingBlockId.setText("No Pending Block!");
-                                    Log.e("IN","In");
                                 }
                             });
                             SystemClock.sleep(2000);
@@ -296,7 +297,7 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
                                                 e.printStackTrace();
                                             }
                                         }
-                                    }).execute("http://192.168.0.103:7076");
+                                    }).execute(HOST_ADDRESS);
 
                                     myDialog.dismiss();
                                 }
@@ -307,10 +308,7 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
                 }
 
             }
-        }).execute("http://192.168.0.103:7076");
-
-
-
+        }).execute(HOST_ADDRESS);
         myDialog.show();
     }
 

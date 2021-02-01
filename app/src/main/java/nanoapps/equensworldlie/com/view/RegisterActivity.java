@@ -33,6 +33,8 @@ public class RegisterActivity extends AppCompatActivity{
     Button registerButton;
     TextView loginTextView;
 
+    private static final String HOST_ADDRESS  = "http://192.168.1.19:7076";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -98,7 +100,7 @@ public class RegisterActivity extends AppCompatActivity{
 
                                                     Log.e("Output",this.Response);
                                                 }
-                                            }).execute("http://192.168.0.103:7076");
+                                            }).execute(HOST_ADDRESS);
 
                                             Toast.makeText(RegisterActivity.this, "Registration Successful", Toast.LENGTH_SHORT).show();
 
@@ -113,7 +115,7 @@ public class RegisterActivity extends AppCompatActivity{
                                     e.printStackTrace();
                                 }
                             }
-                        }).execute("http://192.168.0.103:7076");
+                        }).execute(HOST_ADDRESS);
                         break;
 
                         // Username != admin, normal registration is made
@@ -170,7 +172,7 @@ public class RegisterActivity extends AppCompatActivity{
                                                             public void run(){
                                                                 super.run();
                                                             }
-                                                        }).execute("http://192.168.0.103:7076");
+                                                        }).execute(HOST_ADDRESS);
 
                                                         Toast.makeText(RegisterActivity.this, "Registration Successful", Toast.LENGTH_LONG).show();
 
@@ -184,13 +186,13 @@ public class RegisterActivity extends AppCompatActivity{
                                                 e.printStackTrace();
                                             }
                                         }
-                                    }).execute("http://192.168.0.103:7076");
+                                    }).execute(HOST_ADDRESS);
 
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                 }
                             }
-                        }).execute("http://192.168.0.103:7076");
+                        }).execute(HOST_ADDRESS);
                 }
             }
         });

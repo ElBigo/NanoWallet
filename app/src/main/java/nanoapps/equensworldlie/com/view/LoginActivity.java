@@ -32,6 +32,8 @@ public class LoginActivity extends AppCompatActivity {
     TextView registerTextView;
     DbManager db;
 
+    private static final String HOST_ADDRESS  = "http://192.168.1.19:7076";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -95,7 +97,7 @@ public class LoginActivity extends AppCompatActivity {
                                 e.printStackTrace();
                             }
                         }
-                    }).execute("http://192.168.0.103:7076");
+                    }).execute(HOST_ADDRESS);
 
                     Toast.makeText(LoginActivity.this, "Login Successful", Toast.LENGTH_SHORT).show();
                     Intent userIntent = new Intent((LoginActivity.this), (UserActivity.class)).putExtra("user", user);
